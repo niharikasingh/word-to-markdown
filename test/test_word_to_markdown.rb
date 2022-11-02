@@ -39,21 +39,28 @@ class TestWordToMarkdown < Minitest::Test
 
   should 'not mangle encoding' do
     doc = stub_doc '<span>…</span>'
+
     assert_equal '…', doc.to_s
   end
 
   should 'straighten double curly quotes' do
     doc = stub_doc '<span>“”</span>'
+
     assert_equal '""', doc.to_s
   end
 
   should 'straighten single curly quotes' do
     doc = stub_doc '<span>‘’</span>'
+
     assert_equal "''", doc.to_s
   end
 
   should 'handle files with spaces' do
     validate_fixture 'file with space', 'This is paragraph text.'
+  end
+
+  should 'not add spaces between bolded text and punctuation' do
+    validate_fixture 'comma after bold', 'This is **bolded**, and text.'
   end
 
   unless Gem.win_platform?
